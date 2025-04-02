@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenHealth & NutriGen - Wellness Guide</title>
+    <style>
+        /* Basic reset and page styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+    min-height: 100vh;
+    display: flex;
+}
+
+/* Navigation sidebar styles */
+.nav-sidebar {
+    width: 250px;
+    background-color: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 10;
+}
+
+.nav-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.nav-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.nav-menu {
+    flex-grow: 1;
+    padding: 20px 0;
+}
+
+.nav-menu ul {
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 10px;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #555;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-item a:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+}
+
+.nav-item.active a {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #4CAF50;
+    border-left-color: #4CAF50;
+}
+
+.nav-icon {
+    font-size: 18px;
+    margin-right: 10px;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-text {
+    font-size: 14px;
+}
+
+.nav-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.settings-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #777;
+}
+
+.settings-link:hover {
+    color: #4CAF50;
+}
+
+/* Content area styles */
+.content-area {
+    flex-grow: 1;
+    margin-left: 250px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Chat container styles */
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.chat-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-logo {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.header-text h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header-text p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    height: 400px;
+    background-color: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 80%;
+    line-height: 1.5;
+    position: relative;
+    clear: both;
+}
+
+.user-message {
+    background-color: #e0f7fa;
+    float: right;
+    border-bottom-right-radius: 4px;
+    color: #00796B;
+}
+
+.bot-message {
+    background-color: #f0f0f0;
+    float: left;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+/* Formatted content styles */
+.bot-message h3 {
+    margin-top: 10px;
+    margin-bottom: 8px;
+    color: #2E7D32;
+    font-size: 16px;
+    border-bottom: 1px solid #BDBDBD;
+    padding-bottom: 5px;
+}
+
+.bot-message ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.bot-message li {
+    margin-bottom: 5px;
+}
+
+.bot-message strong {
+    color: #1B5E20;
+    font-weight: 600;
+}
+
+.bot-message em {
+    background-color: #E8F5E9;
+    font-style: normal;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.chat-input {
+    display: flex;
+    padding: 15px;
+    background-color: white;
+    border-top: 1px solid #eee;
+}
+
+input[type="text"] {
+    flex-grow: 1;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 24px;
+    margin-right: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #4CAF50;
+}
+
+button {
+    padding: 14px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #3e8e41;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.loader {
+    display: none;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.loader::after {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #81C784;
+    border-radius: 50%;
+    border-top-color: #4CAF50;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Styles for active content section */
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <div class="nav-sidebar">
+        <div class="nav-header">
+            <div class="nav-logo">🥗</div>
+            <h2>NutriGen</h2>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="nav-item">
+                    <a href="#" data-section="nutrition-chat">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Nutrition Chat</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" data-section="deficiency-detector">
+                        <span class="nav-icon">🩺</span>
+                        <span class="nav-text">Deficiency Detector</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" data-section="meal-planner">
+                        <span class="nav-icon">🍽</span>
+                        <span class="nav-text">Meal Planner</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" data-section="nutrition-analysis">
+                        <span class="nav-icon">🔢</span>
+                        <span class="nav-text">Nutrition Analysis</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="#" data-section="wellness-chat">
+                        <span class="nav-icon">🧘</span>
+                        <span class="nav-text">Wellness Chat</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="nav-footer">
+            <a href="#" class="settings-link">
+                <span class="nav-icon">⚙</span>
+                <span class="nav-text">Settings</span>
+            </a>
+        </div>
+    </div>
+
+    Content Area
+    <div class="content-area">
+        <!-- Wellness Chat Section (default active) -->
+        <div id="wellness-chat" class="content-section active">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="header-logo">🧘</div>
+                    <div class="header-text">
+                        <h1>ZenHealth</h1>
+                        <p>Your Holistic Wellness Guide</p>
+                    </div>
+                </div>
+                <div class="chat-messages" id="wellness-chat-messages">
+                    <div class="bot-message message">Hello! I'm ZenHealth, your personal wellness guide. Ask me about mental health, meditation, exercise, sleep, or any other wellness topic to improve your well-being!</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="loader" id="wellness-loading-indicator"></div>
+                <div class="chat-input">
+                    <input type="text" id="wellness-user-input" placeholder="Type your wellness question...">
+                    <button onclick="sendWellnessMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyASmF8TwJTdEJugqNQhjjqNFPsCg6Gbz0E"; // Replace with your actual API key
+        const API_ENDPOINT = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent";
+        
+        // Navigation functionality
+        document.querySelectorAll('.nav-item a').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active navigation item
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                this.parentElement.classList.add('active');
+                
+                // Show corresponding content section
+                const targetSection = this.getAttribute('data-section');
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(targetSection).classList.add('active');
+            });
+        });
+        
+        // Wellness Chat functionality
+        const wellnessChatMessages = document.getElementById('wellness-chat-messages');
+        const wellnessUserInput = document.getElementById('wellness-user-input');
+        const wellnessLoadingIndicator = document.getElementById('wellness-loading-indicator');
+        
+        // Nutrition Chat functionality
+        const nutritionChatMessages = document.getElementById('nutrition-chat-messages');
+        const nutritionUserInput = document.getElementById('nutrition-user-input');
+        const nutritionLoadingIndicator = document.getElementById('nutrition-loading-indicator');
+
+        // List of greetings to check against
+        const greetings = ['hi', 'hello', 'hey', 'howdy', 'hola', 'greetings', 'sup'];
+        
+        // Custom responses for wellness greetings
+        const wellnessGreetingResponses = [
+            "Hi there! I'm ZenHealth, your wellness companion. How can I support your well-being today?",
+            "Hello! I'm here to help you find balance and wellness. What aspect of your health journey would you like to explore?",
+            "Hey! I'm your wellness guide. How can I help you create more harmony in your life today?",
+            "Hi! I'm ZenHealth, ready to support your path to wellness. What would you like to discuss?",
+            "Hello! I'm your holistic wellness assistant. What area of your well-being would you like to focus on today?"
+        ];
+        
+        // Custom responses for nutrition greetings
+        const nutritionGreetingResponses = [
+            "Hi there! I'm NutriBot, your nutrition guide. How can I help with your dietary questions today?",
+            "Hello! I'm here to help with all your nutrition needs. What would you like to know about food and diet?",
+            "Hey! Ready to discuss nutrition and healthy eating. What questions do you have today?",
+            "Hi! I'm NutriBot, your guide to better nutrition. What aspect of food or diet would you like to explore?",
+            "Hello! I'm your nutrition assistant. How can I help improve your dietary habits today?"
+        ];
+
+        async function sendWellnessMessage() {
+            const message = wellnessUserInput.value.trim();
+            if (!message) return;
+
+            appendMessage(wellnessChatMessages, 'user', message);
+            wellnessUserInput.value = '';
+            wellnessLoadingIndicator.style.display = 'block';
+
+            try {
+                // Check if the message is a greeting
+                const lowerMessage = message.toLowerCase();
+                if (greetings.some(greeting => lowerMessage === greeting || lowerMessage.startsWith(greeting + ' '))) {
+                    // If it's a greeting, use a random greeting response
+                    const randomIndex = Math.floor(Math.random() * wellnessGreetingResponses.length);
+                    appendMessage(wellnessChatMessages, 'bot', wellnessGreetingResponses[randomIndex]);
+                } else {
+                    // Otherwise, process it as a wellness question
+                    const response = await getAPIResponse(message, "wellness");
+                    appendFormattedResponse(wellnessChatMessages, 'bot', response);
+                }
+            } catch (error) {
+                appendMessage(wellnessChatMessages, 'bot', `Error: ${error.message || 'Failed to get response.'}`);
+                console.error("API Error:", error);
+            } finally {
+                wellnessLoadingIndicator.style.display = 'none';
+            }
+        }
+        
+        async function sendNutritionMessage() {
+            const message = nutritionUserInput.value.trim();
+            if (!message) return;
+
+            appendMessage(nutritionChatMessages, 'user', message);
+            nutritionUserInput.value = '';
+            nutritionLoadingIndicator.style.display = 'block';
+
+            try {
+                // Check if the message is a greeting
+                const lowerMessage = message.toLowerCase();
+                if (greetings.some(greeting => lowerMessage === greeting || lowerMessage.startsWith(greeting + ' '))) {
+                    // If it's a greeting, use a random greeting response
+                    const randomIndex = Math.floor(Math.random() * nutritionGreetingResponses.length);
+                    appendMessage(nutritionChatMessages, 'bot', nutritionGreetingResponses[randomIndex]);
+                } else {
+                    // Otherwise, process it as a nutrition question
+                    const response = await getAPIResponse(message, "nutrition");
+                    appendFormattedResponse(nutritionChatMessages, 'bot', response);
+                }
+            } catch (error) {
+                appendMessage(nutritionChatMessages, 'bot', `Error: ${error.message || 'Failed to get response.'}`);
+                console.error("API Error:", error);
+            } finally {
+                nutritionLoadingIndicator.style.display = 'none';
+            }
+        }
+
+        function appendMessage(chatMessages, sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${sender}-message`);
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            
+            const clearDiv = document.createElement('div');
+            clearDiv.classList.add('clearfix');
+            chatMessages.appendChild(clearDiv);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function appendFormattedResponse(chatMessages, sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${sender}-message`);
+            
+            // Format the message with some basic Markdown-like processing
+            let formattedMessage = message;
+            
+            // Format headings (lines starting with #)
+            formattedMessage = formattedMessage.replace(/^#\s+(.+)$/gm, '<h3>$1</h3>');
+            
+            // Bold text
+            formattedMessage = formattedMessage.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            
+            // Italic text
+            formattedMessage = formattedMessage.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            
+            // Bullet points
+            formattedMessage = formattedMessage.replace(/^- (.+)$/gm, '<li>$1</li>');
+            formattedMessage = formattedMessage.replace(/<li>(.+)(?=\n<li>|\n\n|$)/gm, '<ul><li>$1</li></ul>');
+            
+            // Format paragraphs
+            formattedMessage = formattedMessage.replace(/\n\n/g, '<br><br>');
+            
+            // Add emoji based on the chat type
+            if (chatMessages.id === 'wellness-chat-messages') {
+                // Add emoji to common wellness terms
+                formattedMessage = formattedMessage.replace(/\b(meditation)\b/gi, '🧘 $1');
+                formattedMessage = formattedMessage.replace(/\b(yoga)\b/gi, '🧘‍♀️ $1');
+                formattedMessage = formattedMessage.replace(/\b(exercise|workout)\b/gi, '🏋️ $1');
+                formattedMessage = formattedMessage.replace(/\b(sleep)\b/gi, '😴 $1');
+                formattedMessage = formattedMessage.replace(/\b(stress)\b/gi, '😓 $1');
+                formattedMessage = formattedMessage.replace(/\b(anxiety)\b/gi, '😰 $1');
+                formattedMessage = formattedMessage.replace(/\b(mental health)\b/gi, '🧠 $1');
+                formattedMessage = formattedMessage.replace(/\b(mindfulness)\b/gi, '🌱 $1');
+                formattedMessage = formattedMessage.replace(/\b(breathing)\b/gi, '🫁 $1');
+                formattedMessage = formattedMessage.replace(/\b(relaxation)\b/gi, '🛌 $1');
+                formattedMessage = formattedMessage.replace(/\b(hydration|water)\b/gi, '💧 $1');
+                formattedMessage = formattedMessage.replace(/\b(balance)\b/gi, '⚖️ $1');
+                formattedMessage = formattedMessage.replace(/\b(healthy)\b/gi, '✅ $1');
+                formattedMessage = formattedMessage.replace(/\b(gratitude)\b/gi, '🙏 $1');
+            } else if (chatMessages.id === 'nutrition-chat-messages') {
+                // Add emoji to common nutrition terms
+                formattedMessage = formattedMessage.replace(/\b(protein)\b/gi, '🥩 $1');
+                formattedMessage = formattedMessage.replace(/\b(carbohydrates|carbs)\b/gi, '🍞 $1');
+                formattedMessage = formattedMessage.replace(/\b(fat|fats)\b/gi, '🥑 $1');
+                formattedMessage = formattedMessage.replace(/\b(fiber)\b/gi, '🌾 $1');
+                formattedMessage = formattedMessage.replace(/\b(vitamin)\b/gi, '💊 $1');
+                formattedMessage = formattedMessage.replace(/\b(mineral|minerals)\b/gi, '🧪 $1');
+                formattedMessage = formattedMessage.replace(/\b(calorie|calories)\b/gi, '🔥 $1');
+                formattedMessage = formattedMessage.replace(/\b(diet|diets)\b/gi, '📋 $1');
+                formattedMessage = formattedMessage.replace(/\b(meal|meals)\b/gi, '🍽️ $1');
+                formattedMessage = formattedMessage.replace(/\b(vegetable|vegetables)\b/gi, '🥦 $1');
+                formattedMessage = formattedMessage.replace(/\b(fruit|fruits)\b/gi, '🍎 $1');
+                formattedMessage = formattedMessage.replace(/\b(hydration|water)\b/gi, '💧 $1');
+            }
+            
+            messageDiv.innerHTML = formattedMessage;
+            chatMessages.appendChild(messageDiv);
+            
+            const clearDiv = document.createElement('div');
+            clearDiv.classList.add('clearfix');
+            chatMessages.appendChild(clearDiv);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function getAPIResponse(prompt, type) {
+            try {
+                let enhancedPrompt;
+                
+                if (type === "wellness") {
+                    enhancedPrompt = `
+                        You are ZenHealth, a friendly and supportive wellness guide chatbot. Please answer the following question in a well-structured format.
+                        Use headings with the # symbol, bullet points with - for lists,
+                        and highlight important terms with ** for bold.
+                        Keep your response concise but informative.
+                        
+                        Focus on holistic wellness topics including mental health, meditation, exercise, sleep, stress management, 
+                        work-life balance, mindfulness, and other aspects of wellbeing.
+                        
+                        Provide evidence-based wellness information that promotes balance and healthy living.
+                        If the user is just saying hello or sending a greeting, respond in a friendly way and ask what wellness questions they have.
+
+                        User input: ${prompt}
+                    `;
+                } else if (type === "nutrition") {
+                    enhancedPrompt = `
+                        You are NutriBot, a knowledgeable and helpful nutrition assistant chatbot. Please answer the following question in a well-structured format.
+                        Use headings with the # symbol, bullet points with - for lists,
+                        and highlight important terms with ** for bold.
+                        Keep your response concise but informative.
+                        
+                        Focus on nutrition topics including healthy eating, meal planning, nutrients, vitamins, dietary needs,
+                        food groups, special diets, and other aspects of nutritional health.
+                        
+                        Provide evidence-based nutrition information that promotes balanced eating and healthy food choices.
+                        If the user is just saying hello or sending a greeting, respond in a friendly way and ask what nutrition questions they have.
+
+                        User input: ${prompt}
+                    `;
+                }
+
+                const response = await fetch(`${API_ENDPOINT}?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: enhancedPrompt
+                            }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || 'API request failed');
+                }
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // Add event listeners for enter key
+        wellnessUserInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendWellnessMessage();
+            }
+        });
+        
+        nutritionUserInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendNutritionMessage();
+            }
+        });
+    </script>
+</body>
+</html>
